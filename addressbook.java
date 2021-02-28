@@ -1,5 +1,6 @@
 import java.util.Scanner;
 public class addressbook {
+
 	public String[] Person() {
 		Scanner input = new Scanner(System.in);
 		String[] contact = new String[8];
@@ -97,12 +98,39 @@ public class addressbook {
 		else
 			System.out.println("Invalid Input");
 	}
+	public void delete(String[] contact) {
+		System.out.println("Enter the first name of the contact you want to delete");
+		Scanner sc = new Scanner(System.in);
+		String person_name = sc.next();
+		if (contact[0].equals(person_name)) {
+			for (int j = 0; j < contact.length; j++) {
+				contact[j] = " ";
+				System.out.println(contact[j]);
+			}
+			System.out.println("Your contact has been deleted");
+		} 
+		else {
+			System.out.println("Contact name not available");
+		}
+	}
 	
 	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
 		System.out.println("WELCOME to Address Book Program");
 		addressbook contact = new addressbook();
 		String[] info = contact.Person();
-		contact.edit(info);
+		System.out.println("Type the following numbers if you want to perform the corresponding action");
+		System.out.println("1. EDIT\n2. DELETE\n3. NONE");
+		int action = sc.nextInt();
+		switch(action) {
+		case 1:
+			contact.edit(info);
+			break;
+		case 2:
+			contact.delete(info);
+			break;
+		}
+		System.out.println("******THANK YOU******");
 	}
 
 }
