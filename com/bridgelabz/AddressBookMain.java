@@ -2,9 +2,10 @@ package com.bridgelabz;
 import java.util.*;
 
 public class AddressBookMain {
+
     public static Scanner in = new Scanner(System.in);
-    private static AddressBook addressBook = new AddressBook();
-    public Map<String,AddressBook> addressBookListMap = new HashMap<>();
+    private AddressBook addressBook = new AddressBook();
+    public static Map<String,AddressBook> addressBookListMap = new HashMap<>();
 
     public void addContactInAddressBook(String addName) {
         AddressBookMain addBookMain = new AddressBookMain();
@@ -68,48 +69,82 @@ public class AddressBookMain {
         }
     }
 
+    private void viewPersonByStateUsingHashmap(String stateName) {
+        for (Map.Entry<String, AddressBook> entry : addressBookListMap.entrySet()) {
+            AddressBook value = entry.getValue();
+            ArrayList<DisplayOption> contacts = value.personByState.entrySet().stream()
+                    .filter(findState -> findState.getKey().equals(stateName)).map(Map.Entry::getValue).findFirst()
+                    .orElse(null);
+            for (DisplayOption contact : contacts) {
+                System.out.println("First Name: " + contact.getFirstName() + " Last Name: " + contact.getLastName());
+            }
+        }
+    }
+
+    private void viewPersonByCityUsingHashMap(String cityName) {
+        for (Map.Entry<String, AddressBook> entry : addressBookListMap.entrySet()) {
+            AddressBook value = entry.getValue();
+            ArrayList<DisplayOption> contacts = value.personByCity.entrySet().stream()
+                    .filter(findCity -> findCity.getKey().equals(cityName)).map(Map.Entry::getValue).findFirst()
+                    .orElse(null);
+            for (DisplayOption contact : contacts) {
+                System.out.println("First Name: " + contact.getFirstName() + " Last Name: " + contact.getLastName());
+            }
+        }
+    }
+
+
+
     public static void main(String[] args) {
 
         AddressBookMain addressBookMainobj = new AddressBookMain();
         boolean flag = true;
         while(flag)
         {
-            while(flag)
-            {
-                System.out.println("Enter your choice \n 1: Add new AddressBook \n 2:Display");
-                int choice = in.nextInt();
-                switch (choice){
-                    case 1: {
-                        System.out.println("Enter the Name of Address Book: ");
-                        String addressBookName = in.next();
-                        if(addressBookMainobj.addressBookListMap.containsKey(addressBookName)){
-                            System.out.println("The Address book Already Exists");
-                            break;
-                        }
-                        else
-                        {
-                            addressBookMainobj.addContactInAddressBook(addressBookName);
-                            break;
-                        }
-                    }
-                    case 2:
-                        System.out.println("Enter Name of City: ");
-                        String CityName = in.next();
-                        addressBookMainobj.searchPersonByCity(CityName);
+            System.out.println("Enter your choice \n 1: Add new AddressBook \n 2:Search contact from a city \n 3:Search contact from a state \n 4:View contact By State Using City and Person HashMap \n 5:View contact By State Using State and Person HashMap \n 6:Display ");
+            int choice = in.nextInt();
+            switch (choice){
+                case 1: {
+                    System.out.println("Enter the Name of Address Book: ");
+                    String addressBookName = in.next();
+                    if(addressBookListMap.containsKey(addressBookName)){
+                        System.out.println("The Address book Already Exists");
                         break;
+                    }
+                    else
+                    {
+                        addressBookMainobj.addContactInAddressBook(addressBookName);
+                        break;
+                    }
+                }
+                case 2:
+                    System.out.println("Enter Name of City: ");
+                    String CityName = in.next();
+                    addressBookMainobj.searchPersonByCity(CityName);
+                    break;
 
-                    case 3: {
-                        System.out.println("Enter Name of State: ");
-                        String StateName = in.next();
-                        addressBookMainobj.searchPersonByState(StateName);
-                        break;
-                    }
-                    case 4:
-                        flag = false;
-                        break;
+                case 3:
+                    System.out.println("Enter Name of State: ");
+                    String StateName = in.next();
+                    addressBookMainobj.searchPersonByState(StateName);
+                    break;
+                case 4:
+                    System.out.println("Enter Name of City: ");
+                    String CityName1 = in.next();
+                    addressBookMainobj.searchPersonByCity(CityName1);
+                    break;
+                case 5:
+                    System.out.println("Enter Name of State: ");
+                    String StateName1 = in.next();
+                    addressBookMainobj.searchPersonByState(StateName1);
+                    break;
+                case 6:
+                    flag = false;
+                    break;
+            }
 
                 }
             }
         }
-    }
-}
+
+
