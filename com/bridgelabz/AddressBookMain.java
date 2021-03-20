@@ -1,5 +1,6 @@
 package com.bridgelabz;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class AddressBookMain {
 
@@ -49,8 +50,7 @@ public class AddressBookMain {
                     flag = false;
                     break;
 
-                default:
-                    flag = true;
+
             }
         }
         addressBookListMap.put(addName, addressBook);
@@ -119,7 +119,7 @@ public class AddressBookMain {
         System.out.println("Total Person Count in state " + state + ": " + count);
     }
 
-    //Count person by state name
+    //Count person by City name
     public void CountByCity(String city) {
         int countPersonInCity = 0;
         for (Map.Entry<String, AddressBook> entry : addressBookListMap.entrySet()) {
@@ -135,6 +135,23 @@ public class AddressBookMain {
         System.out.println("Total number of people in this city " + city + ": " + countPersonInCity);
     }
 
+    //sort contact by name
+    private void sortContactByName() {
+        for (Map.Entry<String,AddressBook>entry:addressBookListMap.entrySet()){
+            AddressBook value = entry.getValue();
+            List<DisplayOption> sortedList = value.contactList.stream().sorted(Comparator.comparing(DisplayOption::getFirstName)).collect(Collectors.toList());
+
+            for(DisplayOption contact:sortedList){
+                System.out.println("First Name: "+contact.getFirstName());
+                System.out.println("Last Name: "+contact.getLastName());
+
+            }
+        }
+    }
+
+
+
+
 
 
 
@@ -144,7 +161,15 @@ public class AddressBookMain {
         boolean flag = true;
         while(flag)
         {
-            System.out.println("Enter your choice \n 1: Add new AddressBook \n 2:Search contact from a city \n 3:Search contact from a state \n 4:View contact By State Using City and Person HashMap \n 5:View contact By State Using State and Person HashMap \n 6:Display ");
+            System.out.println("1.Add New Address Book");
+            System.out.println("2.Search Contact from a city");
+            System.out.println("3.Search Contact from a State");
+            System.out.println("4.View contact By State ");
+            System.out.println("5.View Contact by city ");
+            System.out.println("6.Count Contact By State");
+            System.out.println("7.Count Contact By City");
+            System.out.println("8.Sort Contact By Name");
+            System.out.println("9.Display");
             int choice = in.nextInt();
             switch (choice){
                 case 1: {
@@ -194,6 +219,10 @@ public class AddressBookMain {
                     break;
 
                 case 8:
+                    System.out.println("Sort Contact");
+                    addressBookMainobj.sortContactByName();
+
+                case 9:
                     flag = false;
                     break;
             }
